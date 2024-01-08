@@ -1,0 +1,60 @@
+#This package allows for the shifting of data points in vectors by N amount for moving in the map
+
+install.packages("plotfunctions")
+library(plotfunctions)
+
+#Here we build the empty map, and place the player in the northwestern most corner. 
+#Places are indicated by zeros, and the player is indicated by one
+
+map <- matrix(0,nrow=6,ncol=6)
+map[1,1] <- 1
+
+#Here we define a function that the player can use to Move on the map 
+#Possible answers are N for North, etc
+
+move <- function(direction) {
+  direction <<- direction
+  if(direction=="N") {
+    map <<- c(map); map<<- move_n_point(map,n=-1,na_value=0); map <<- t(map) ; map <<- matrix(map,nrow=6,ncol=6)
+    }
+  if(direction=="S") {
+    map <<- c(map); map<<- move_n_point(map,n=1,na_value=0); map <<- t(map) ; map <<- matrix(map,nrow=6,ncol=6)
+    }
+  if(direction=="W") {
+    map <<- c(map); map<- move_n_point(map,n=-6,na_value=0); map <<- t(map) ; map <<- matrix(map,nrow=6,ncol=6)
+    }
+  if(direction=="E") {
+    map <<- c(map); map<- move_n_point(map,n=6,na_value=0); map <<- t(map) ; map <<- matrix(map,nrow=6,ncol=6)
+  }
+  print(map)
+}
+
+explore <- function(exploring) {
+  exploring <<- exploring
+  if (exploring=="here") {
+    coordinates <<- which(map==1, arr.ind=TRUE)}
+    coordinates <<- as.character(coordinates)
+    if(coordinates[1]==1 & coordinates[2]==1) {print("You are home")}
+    if(coordinates[1]==2 & coordinates[2]==1) {print("You are in a forest")}
+    if(coordinates[1]==3 & coordinates[2]==1) {}
+    if(coordinates[1]==4 & coordinates[2]==1) {}
+    if(coordinates[1]==5 & coordinates[2]==1) {}
+    if(coordinates[1]==6 & coordinates[2]==1) {}
+    if(coordinates[1]==1 & coordinates[2]==2) {}
+    if(coordinates[1]==2 & coordinates[2]==2) {}
+    if(coordinates[1]==3 & coordinates[2]==2) {}
+    if(coordinates[1]==4 & coordinates[2]==2) {}
+    if(coordinates[1]==5 & coordinates[2]==2) {}
+    if(coordinates[1]==6 & coordinates[2]==2) {}
+  }
+
+move("S")  
+
+explore("here")
+
+coordinates
+
+move("E")
+map
+
+coordinates <- as.matrix(coordinates)
