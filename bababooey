@@ -19,6 +19,9 @@ starting_items <- data.frame(
 
 #Here we put a random starting item from the list into the player's inventory
 #Note: The other starting items stay in the starting_items vector, so they can be sampled later as random loot?
+
+#BUG:This also doesn't seem to work. If we later want to sample items from this list, we must remove the sampled item in this part.
+
 inventory <- c(inventory,(sample(starting_items[,2],1)))
 
 #Here we define a function that the player can use to Move on the map 
