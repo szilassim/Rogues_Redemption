@@ -3,11 +3,23 @@
 install.packages("plotfunctions")
 library(plotfunctions)
 
-#Here we build the empty map, and place the player in the northwestern most corner. 
+#Here we build the empty map and place the player in the northwesternmost corner. 
 #Places are indicated by zeros, and the player is indicated by one
 
 map <- matrix(0,nrow=6,ncol=6)
 map[1,1] <- 1
+
+#Here we define the player's inventory, and starting items (loincloth + random)
+
+inventory <- list("loincloth")
+starting_items <- data.frame(
+  c(1,2,3,4,5,6,7),
+  c("apple", "ancient sword", "pendant of darkness", "corpse tag", "leather bag", "coin purse", "cold meat")
+)
+
+#Here we put a random starting item from the list into the player's inventory
+#Note: The other starting items stay in the starting_items vector, so they can be sampled later as random loot?
+inventory <- c(inventory,(sample(starting_items[,2],1)))
 
 #Here we define a function that the player can use to Move on the map 
 #Possible answers are N for North, etc
@@ -21,10 +33,10 @@ move <- function(direction) {
     map <<- c(map); map<<- move_n_point(map,n=1,na_value=0); map <<- t(map) ; map <<- matrix(map,nrow=6,ncol=6)
     }
   if(direction=="W") {
-    map <<- c(map); map<- move_n_point(map,n=-6,na_value=0); map <<- t(map) ; map <<- matrix(map,nrow=6,ncol=6)
+    map <<- c(map); map<<- move_n_point(map,n=-6,na_value=0); map <<- t(map) ; map <<- matrix(map,nrow=6,ncol=6)
     }
   if(direction=="E") {
-    map <<- c(map); map<- move_n_point(map,n=6,na_value=0); map <<- t(map) ; map <<- matrix(map,nrow=6,ncol=6)
+    map <<- c(map); map<<- move_n_point(map,n=6,na_value=0); map <<- t(map) ; map <<- matrix(map,nrow=6,ncol=6)
   }
   print(map)
 }
@@ -48,13 +60,16 @@ explore <- function(exploring) {
     if(coordinates[1]==6 & coordinates[2]==2) {}
   }
 
-move("S")  
 
-explore("here")
+#Here, we make a use function, with which the player can use one item from their inventory, if they have it. If they don't it prints the empty hands line
 
-coordinates
+#BUG: prints "you look at your empty hands" twice
+use <- function(item1="nothing") {
+  item1 <<- item1
+  if(item1=="cold meat" & is.null(grep("cold meat",inventory))){
+    print("you consume the meat. it's cold.");
+    rm("cold meat",inventory)
+    }
+  else(print("you look at your empty hands."))
+       }
 
-move("E")
-map
-
-coordinates <- as.matrix(coordinates)
