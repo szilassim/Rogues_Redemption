@@ -64,6 +64,9 @@ explore <- function(exploring) {
 #Here, we make a use function, with which the player can use one item from their inventory, if they have it. If they don't it prints the empty hands line
 
 #BUG: prints "you look at your empty hands" twice
+#THis shit broken! 
+
+
 use <- function(item1="nothing") {
   item1 <<- item1
   if(item1=="cold meat" & is.null(grep("cold meat",inventory))){
